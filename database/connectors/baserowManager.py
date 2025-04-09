@@ -63,43 +63,43 @@ def delete_row(database_id, table_id, row_id):
 
 def main():
     database_id = 206301
-    table_id = 497386
+    table_id = 497427
 
     # Criar uma linha
-    novo_parceiro = {
-    "Name": "Drogaria Central",
-    "Notes": "Nova drogaria parceira no centro",
-    "Active": True,
-    "type_database": "csv",
-    "config_json": None,
-    "table_map": None,
-    "history_csv": [],
-    "catalog_csv": [],
-    "process_history": "12345",
-    "process_catalog": "67890"
-    }   
-    created = create_row(database_id, table_id, novo_parceiro)
-    print("Criado:", created)
+    # novo_parceiro = {
+    # "Name": "Drogaria Central",
+    # "Notes": "Nova drogaria parceira no centro",
+    # "Active": True,
+    # "type_database": "csv",
+    # "config_json": None,
+    # "table_map": None,
+    # "history_csv": [],
+    # "catalog_csv": [],
+    # "process_history": "12345",
+    # "process_catalog": "67890"
+    # }   
+    # created = create_row(database_id, table_id, novo_parceiro)
+    # print("Criado:", created)
 
 
     # Listar todas as linhas
     linhas = list_rows(database_id, table_id)
     print("Todas as linhas:", linhas)
 
-    if linhas:
-        row_id = linhas[0]['id']
+    # if linhas:
+    #     row_id = linhas[0]['id']
 
-        # Ler uma linha
-        linha = read_row(database_id, table_id, row_id)
-        print("Linha lida:", linha)
+    #     # Ler uma linha
+    #     linha = read_row(database_id, table_id, row_id)
+    #     print("Linha lida:", linha)
 
-        # Atualizar a linha
-        atualizacao = {"Notes": "11888888888"}
-        updated = update_row(database_id, table_id, row_id, atualizacao)
-        print("Linha atualizada:", updated)
+    #     # Atualizar a linha
+    #     atualizacao = {"Notes": "11888888888"}
+    #     updated = update_row(database_id, table_id, row_id, atualizacao)
+    #     print("Linha atualizada:", updated)
 
-        # Deletar a linha
-        # delete_row(database_id, table_id, row_id)
+    #     # Deletar a linha
+    #     # delete_row(database_id, table_id, row_id)
 
 if __name__ == '__main__':
     main()

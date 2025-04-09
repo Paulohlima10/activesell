@@ -1,7 +1,5 @@
 from crewai import Agent, Task, Crew
 from crewai.tools import BaseTool
-from langchain.chat_models import ChatOpenAI
-from pydantic import BaseModel, Field
 import sqlite3
 import json
 import os
@@ -45,7 +43,9 @@ class SqlTool(BaseTool):
         print("=== Resultados do Schema ===", result)
         return json.dumps({"clientes": result})
 
-
+tool = SqlTool()
+print("=== Tool criada ===")
+print(tool._run())
 # =======================
 # Inicializa modelo LLM
 # =======================
