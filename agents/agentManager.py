@@ -1,5 +1,6 @@
 from agents.simpleAgent import SalesAssistant
 from logs.logging_config import log_queue
+import asyncio
 class SalesAssistantManager:
     def __init__(self):
         self.assistants = {}
@@ -7,6 +8,7 @@ class SalesAssistantManager:
     def add_assistant(self, partner_code):
         if partner_code not in self.assistants:
             self.assistants[partner_code] = SalesAssistant(partner_code)
+
             asyncio.create_task(log_queue.put(f"Assistente para o parceiro '{partner_code}' foi adicionado."))
         else:
             asyncio.create_task(log_queue.put(f"Assistente para o parceiro '{partner_code}' já existe."))
