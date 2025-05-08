@@ -1,6 +1,5 @@
 typing
 crewai
-logging
 fastapi
 pydantic
 pathlib
