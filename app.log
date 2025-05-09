@@ -2,3 +2,90 @@
 2025-05-07 10:36:36,131 - INFO - Servidor iniciado...
 2025-05-07 10:41:30,472 - INFO - Servidor iniciado...
 2025-05-08 10:36:04,160 - INFO - Servidor iniciado...
+2025-05-09 09:50:18,707 - INFO - Servidor iniciado...
+2025-05-09 09:59:31,831 - INFO - Servidor iniciado...
+2025-05-09 10:00:50,016 - INFO - Servidor iniciado...
+2025-05-09 10:05:24,480 - INFO - Pasta criada: knowledge\partners\00002, Arquivo criado: knowledge\partners\00002\document.txt
+2025-05-09 10:06:10,135 - INFO - Erro ao perguntar ao assistente '00001': 'SalesAssistantManager' object has no attribute 'is_valid_partner_code'
+2025-05-09 10:09:27,261 - INFO - Servidor iniciado...
+2025-05-09 10:09:31,827 - INFO - Erro ao perguntar ao assistente '00001': 'SalesAssistantManager' object has no attribute 'is_valid_partner_code'
+2025-05-09 10:11:42,098 - INFO - Servidor iniciado...
+2025-05-09 10:11:46,884 - INFO - Erro ao perguntar ao assistente '00001': 'SalesAssistantManager' object has no attribute 'is_valid_partner_code'
+2025-05-09 10:22:34,862 - INFO - Servidor iniciado...
+2025-05-09 10:22:47,100 - INFO - Erro ao perguntar ao assistente '00001': 'SalesAssistantManager' object has no attribute 'ask_assistant'
+2025-05-09 10:22:47,100 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 10:22:47,100 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 10:22:47,100 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 10:22:47,100 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 10:22:47,100 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 10:22:47,100 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 10:22:47,100 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 10:26:37,107 - INFO - Servidor iniciado...
+2025-05-09 10:26:45,408 - INFO - Erro ao perguntar ao assistente '00001': 'SalesAssistant' object has no attribute 'ask_assistant'
+2025-05-09 10:26:45,408 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 10:26:45,408 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 10:26:45,408 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 10:26:45,408 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 10:26:45,408 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 10:26:45,408 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 10:26:45,408 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 10:28:30,095 - INFO - Servidor iniciado...
+2025-05-09 10:29:05,030 - INFO - Servidor iniciado...
+2025-05-09 10:29:38,323 - INFO - Erro ao perguntar ao assistente '00001': 'SalesAssistant' object has no attribute 'ask_assistant'
+2025-05-09 10:29:38,323 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 10:29:38,323 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 10:29:38,323 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 10:29:38,323 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 10:29:38,325 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 10:29:38,325 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 10:29:38,325 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 10:34:06,118 - INFO - Servidor iniciado...
+2025-05-09 10:34:38,867 - INFO - Erro ao perguntar ao assistente '00001': object NoneType can't be used in 'await' expression
+2025-05-09 10:34:38,867 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 10:34:38,867 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 10:34:38,867 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 10:34:38,867 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 10:34:38,867 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 10:34:38,867 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 10:34:38,867 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 10:39:06,587 - INFO - Servidor iniciado...
+2025-05-09 10:41:35,582 - INFO - Erro ao perguntar ao assistente '00001': object NoneType can't be used in 'await' expression
+2025-05-09 10:41:35,582 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 10:41:35,584 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 10:41:35,584 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 10:41:35,584 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 10:41:35,584 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 10:41:35,584 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 10:41:35,584 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 10:57:12,050 - INFO - Servidor iniciado...
+2025-05-09 10:57:46,340 - INFO - Assistente para o parceiro '00001' foi criado.
+2025-05-09 10:57:46,340 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 10:57:46,340 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 10:57:46,340 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 10:57:46,340 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 10:57:46,340 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 10:57:46,340 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 10:57:46,340 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 10:57:55,296 - INFO - Assistente não encontrado para o parceiro '00001'.
+2025-05-09 10:57:55,296 - INFO - Erro ao perguntar ao assistente '00001': 404: Assistente não encontrado para o parceiro '00001'. Certifique-se de criá-lo primeiro.
+2025-05-09 11:04:10,500 - INFO - Servidor iniciado...
+2025-05-09 11:04:25,570 - INFO - Assistente para o parceiro '00001' foi criado.
+2025-05-09 11:04:25,570 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 11:04:25,570 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 11:04:25,570 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 11:04:25,570 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 11:04:25,570 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 11:04:25,570 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 11:04:25,570 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 11:04:36,110 - INFO - Erro ao perguntar ao assistente '00001': 'SalesAssistant' object has no attribute 'ask_assistant'
+2025-05-09 11:14:07,982 - INFO - Servidor iniciado...
+2025-05-09 11:19:03,669 - INFO - Servidor iniciado...
+2025-05-09 11:19:14,401 - INFO - Assistente para o parceiro '00001' foi criado.
+2025-05-09 11:19:14,401 - INFO - Atualizando base de conhecimento com o arquivo: partners\00001\document.txt
+2025-05-09 11:19:14,401 - INFO - Conteúdo do arquivo 'role.txt' carregado para o parceiro '00001'
+2025-05-09 11:19:14,401 - INFO - Conteúdo do arquivo 'goal.txt' carregado para o parceiro '00001'
+2025-05-09 11:19:14,401 - INFO - Conteúdo do arquivo 'backstory.txt' carregado para o parceiro '00001'
+2025-05-09 11:19:14,401 - INFO - Conteúdo do arquivo 'name.txt' carregado para o parceiro '00001'
+2025-05-09 11:19:14,401 - INFO - Conteúdo do arquivo 'task_description.txt' carregado para o parceiro '00001'
+2025-05-09 11:19:14,401 - INFO - Assistente para o parceiro '00001' foi adicionado.
+2025-05-09 11:19:30,593 - INFO - Pergunta feita ao assistente '00001': Bom dia!
