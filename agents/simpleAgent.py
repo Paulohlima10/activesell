@@ -125,6 +125,24 @@ class SalesAssistant:
 
         return resposta
     
+    def ask_question(self, question, client_id):
+        # Executar a tarefa do CrewAI
+        result = self.crew.kickoff(inputs={
+            "question": question,
+            "historico": self.chat_history.get_history_string(client_id),
+            "contexto": "contexto"
+        })
+
+        # Processar a resposta
+        resposta_json = json.loads(str(result))
+        resposta = resposta_json.get("Resposta", "Erro ao obter resposta")
+
+        # Atualizar o histórico de chat
+        self.chat_history.add_message(client_id, "user", question)
+        self.chat_history.add_message(client_id, "assistant", resposta)
+
+        return resposta
+    
     def load_file(self, partner_code, file_name):
         """
         Lê um arquivo específico da base de conhecimento do parceiro e retorna o conteúdo.

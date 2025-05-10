@@ -1,6 +1,6 @@
 import asyncio
 from fastapi import FastAPI
-from server import webhook, create_knowledge, create_prompt, healthcheck
+from server import webhook, create_knowledge, create_prompt, healthcheck, ask_agent, create_agents
 from logs.logging_config import log_queue, start_log_processor
 import uvicorn  # Importando o uvicorn
 
@@ -15,6 +15,8 @@ app.include_router(webhook.router)
 app.include_router(create_knowledge.router)
 app.include_router(create_prompt.router)
 app.include_router(healthcheck.router)
+app.include_router(ask_agent.router) 
+app.include_router(create_agents.router)
 
 # Adicionando o bloco para rodar o servidor
 if __name__ == "__main__":

@@ -26,6 +26,9 @@ class SalesAssistantManager:
         else:
             asyncio.create_task(log_queue.put(f"Nenhum assistente encontrado para o parceiro '{partner_code}'."))
 
+# Instância global do gerenciador de assistentes
+global_manager = SalesAssistantManager()
+
 # Exemplo de uso
 if __name__ == "__main__":
     import asyncio
