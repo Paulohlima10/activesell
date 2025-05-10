@@ -1,2 +1,5 @@
 .activesellenv/
 activesellenv/
+__pycache__/
+*.pyc
+*.log
