@@ -3,3 +3,4 @@ activesellenv/
 __pycache__/
 *.pyc
 *.log
+ngrok.exe

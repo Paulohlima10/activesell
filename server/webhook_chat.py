@@ -48,7 +48,16 @@ async def webhook_chat(request: Request):
         remote_jid = msg_data.get("key", {}).get("remoteJid", "")
         phone_number = re.sub(r"@s\.whatsapp\.net$", "", remote_jid)
         client_name = msg_data.get("pushName", "Desconhecido")
-        message_type = msg_data.get("messageType", "text")
+        raw_type = msg_data.get("messageType", "conversation")
+        
+        # Mapeamento para os tipos aceitos pelo banco
+        if raw_type == "conversation":
+            message_type = "text"
+        elif raw_type == "imageMessage":
+            message_type = "image"
+        else:
+            message_type = "text"  # padrão para evitar erro
+
         message_timestamp = msg_data.get("messageTimestamp")
         if message_timestamp:
             msg_dt = datetime.fromtimestamp(message_timestamp, tz=timezone.utc)
