@@ -5,6 +5,8 @@ from fastapi import APIRouter, Request
 from datetime import datetime, timezone
 from evolutionapi.client import EvolutionClient
 from evolutionapi.models.message import TextMessage, MediaMessage, MediaType
+from logs.logging_config import log_message
+
 
 router = APIRouter()
 
@@ -74,6 +76,7 @@ async def send_whatsapp_message(phone_number, msg, image_url=None):
             message=message,
             instance_token=WHATSAPP_API_KEY
         )
+    await log_message("info", f"Mensagem enviada para {phone_number}: {msg} response: {response}")
     return response
 
 async def handle_messages_upsert(msg_data):
@@ -126,6 +129,7 @@ async def handle_messages_upsert(msg_data):
             """,
             msg_id, conversation_id, content, sender, True, message_type, file_url, file_name, msg_dt, "whatsapp"
         )
+        await log_message("info", f"Mensagem processada: {msg_id} para {phone_number} - {content}")
     finally:
         await conn.close()
 
@@ -160,6 +164,7 @@ async def handle_insert_message(record):
 @router.post("/webhook_chat")
 async def webhook_chat(request: Request):
     data = await request.json()
+    await log_message("info", f"Dados: {data}")
     print(data)
 
     # Evento padrão do WhatsApp

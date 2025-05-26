@@ -18,9 +18,14 @@ log_queue = asyncio.Queue()
 # Tarefa assíncrona para processar logs
 async def process_logs():
     while True:
-        log_message = await log_queue.get()
-        logger.info(log_message)
+        log_level, log_message = await log_queue.get()
+        log_method = getattr(logger, log_level, logger.info)
+        log_method(log_message)
         log_queue.task_done()
+
+# Função para adicionar logs à fila
+async def log_message(level: str, message: str):
+    await log_queue.put((level, message))
 
 # Função para iniciar o processamento de logs
 async def start_log_processor():

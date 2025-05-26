@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from logs.logging_config import log_queue
+from logs.logging_config import log_message
 from agents.agentManager import global_manager
 
 router = APIRouter()
@@ -13,8 +13,8 @@ async def create_agent(request: CreateAgentRequest):
     try:
         # Adiciona o assistente usando a instância global
         global_manager.add_assistant(request.partner_code)
-        await log_queue.put(f"Assistente para o parceiro '{request.partner_code}' foi criado.")
+        await log_message("info", f"Assistente para o parceiro '{request.partner_code}' foi criado com sucesso.")
         return {"message": f"Assistente para o parceiro '{request.partner_code}' foi criado com sucesso."}
     except Exception as e:
-        await log_queue.put(f"Erro ao criar o assistente para o parceiro '{request.partner_code}': {str(e)}")
+        await log_message("error", f"Erro ao criar o assistente para o parceiro '{request.partner_code}': {str(e)}")
         return {"error": f"Erro ao criar o assistente: {str(e)}"}

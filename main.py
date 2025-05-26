@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from server import webhook, create_knowledge, create_prompt, healthcheck, ask_agent, create_agents, webhook_chat
-from logs.logging_config import log_queue, start_log_processor
+from logs.logging_config import log_message, start_log_processor
 import uvicorn  # Importando o uvicorn
 
 # Função assíncrona para inicializar o log
 async def initialize_log():
-    await log_queue.put(f"Servidor iniciado...")
+    await log_message("info", "Servidor iniciado...")
 
 app = FastAPI(on_startup=[start_log_processor, initialize_log])
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from pathlib import Path
-from logs.logging_config import log_queue
+from logs.logging_config import log_message
 
 router = APIRouter()
 
@@ -29,8 +29,8 @@ async def create_prompt(request: PromptRequest):
             with (partner_path / name).open("w", encoding="utf-8") as file:
                 file.write(value)
 
-        await log_queue.put(f"Pasta atualizada: {partner_path}, Arquivos criados.")
+        await log_message("info", f"Arquivos criados com sucesso para o parceiro '{request.partner_code}'.")
         return {"message": f"Arquivos criados com sucesso para o parceiro '{request.partner_code}'."}
     except Exception as e:
-        await log_queue.put(f"Erro ao criar os arquivos para o parceiro '{request.partner_code}': {str(e)}")
+        await log_message("error", f"Erro ao criar os arquivos para o parceiro '{request.partner_code}': {str(e)}")
         return {"error": f"Erro ao criar os arquivos: {str(e)}"}

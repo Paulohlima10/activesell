@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from logs.logging_config import log_queue
+from logs.logging_config import log_message
 from agents.agentManager import global_manager
 
 router = APIRouter()
@@ -17,13 +17,13 @@ async def ask_agent(request: AskAgentRequest):
         assistent = global_manager.get_assistant(request.partner_code)
 
         if assistent is None:
-            await log_queue.put(f"Assistente não encontrado para o parceiro '{request.partner_code}'.")
+            await log_message("info", f"Assistente não encontrado para o parceiro '{request.partner_code}'.")
             raise HTTPException(status_code=404, detail=f"Assistente não encontrado para o parceiro '{request.partner_code}'. Certifique-se de criá-lo primeiro.")
 
         # Faz a pergunta ao assistente usando o método correto
         response = assistent.ask_question(request.ask, request.client_id)
-        await log_queue.put(f"Pergunta feita ao assistente '{request.partner_code}': {request.ask}")
+        await log_message("info", f"Pergunta feita ao assistente '{request.partner_code}': {request.ask}")
         return {"response": response}
     except Exception as e:
-        await log_queue.put(f"Erro ao perguntar ao assistente '{request.partner_code}': {str(e)}")
+        await log_message("error", f"Erro ao perguntar ao assistente '{request.partner_code}': {str(e)}")
         return {"error": f"Erro ao perguntar ao assistente: {str(e)}"}

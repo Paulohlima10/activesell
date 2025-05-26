@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from pathlib import Path
-from logs.logging_config import log_queue
+from logs.logging_config import log_message
 
 router = APIRouter()
 
@@ -19,8 +19,8 @@ async def create_knowledge(request: KnowledgeRequest):
         with document_path.open("w", encoding="utf-8") as file:
             file.write(request.content)
 
-        await log_queue.put(f"Pasta criada: {partner_path}, Arquivo criado: {document_path}")
+        await log_message("info", f"Arquivo document.txt criado com sucesso para o parceiro '{request.partner_code}'.")
         return {"message": f"Arquivo document.txt criado com sucesso para o parceiro '{request.partner_code}'."}
     except Exception as e:
-        await log_queue.put(f"Erro ao criar o arquivo para o parceiro '{request.partner_code}': {str(e)}")
+        await log_message("error", f"Erro ao criar o arquivo para o parceiro '{request.partner_code}': {str(e)}")
         return {"error": f"Erro ao criar o arquivo: {str(e)}"}

@@ -3,6 +3,9 @@ from datetime import datetime
 from evolutionapi.client import EvolutionClient
 from evolutionapi.models.message import TextMessage, MediaMessage, MediaType
 import requests
+from logs.logging_config import log_message
+
+
 
 # === CONFIGURAÇÕES ===
 DB_CONFIG = {
