@@ -3,6 +3,8 @@ import uuid
 import asyncpg
 from fastapi import APIRouter, Request
 from datetime import datetime, timezone
+from evolutionapi.client import EvolutionClient
+from evolutionapi.models.message import TextMessage, MediaMessage, MediaType
 
 router = APIRouter()
 
@@ -13,6 +15,16 @@ DB_CONFIG = {
     "user": "postgres.gzzvydiznhwaxrahzkjt",
     "password": "Activesell@01"
 }
+
+WHATSAPP_API_KEY = "3FECACA8A982-4B10-A363-7B291D432708"
+INSTANCE_ID = "vendasai"
+WHATSAPP_URL = "http://localhost:8080"
+EVOLUTION_API_TOKEN = "429683C4C977415CAAFCCE10F7D57E11"
+
+evo_client = EvolutionClient(
+    base_url=WHATSAPP_URL,
+    api_token=EVOLUTION_API_TOKEN
+)
 
 async def get_db_conn():
     return await asyncpg.connect(
@@ -40,58 +52,125 @@ async def get_or_create_conversation(conn, client_id, client_name):
     )
     return conv_id
 
+async def send_whatsapp_message(phone_number, msg, image_url=None):
+    if image_url:
+        message = MediaMessage(
+            number=phone_number,
+            mediatype=MediaType.IMAGE.value,
+            mimetype="image/jpeg",
+            caption=msg,
+            media=image_url,
+            fileName="imagem.jpg"
+        )
+        response = evo_client.messages.send_media(
+            instance_id=INSTANCE_ID,
+            message=message,
+            instance_token=WHATSAPP_API_KEY
+        )
+    else:
+        message = TextMessage(number=phone_number, text=msg, delay=1000)
+        response = evo_client.messages.send_text(
+            instance_id=INSTANCE_ID,
+            message=message,
+            instance_token=WHATSAPP_API_KEY
+        )
+    return response
+
+async def handle_messages_upsert(msg_data):
+    remote_jid = msg_data.get("key", {}).get("remoteJid", "")
+    phone_number = re.sub(r"@s\.whatsapp\.net$", "", remote_jid)
+    client_name = msg_data.get("pushName", "Desconhecido")
+    raw_type = msg_data.get("messageType", "conversation")
+
+    # Mapeamento para os tipos aceitos pelo banco
+    if raw_type == "conversation":
+        message_type = "text"
+    elif raw_type == "imageMessage":
+        message_type = "image"
+    else:
+        message_type = "text"  # padrão para evitar erro
+
+    message_timestamp = msg_data.get("messageTimestamp")
+    if message_timestamp:
+        msg_dt = datetime.fromtimestamp(message_timestamp, tz=timezone.utc)
+    else:
+        msg_dt = datetime.now(timezone.utc)
+
+    msg = msg_data.get("message", {})
+    if "conversation" in msg:
+        content = msg.get("conversation", "")
+        file_url = None
+        file_name = None
+    elif "imageMessage" in msg:
+        img = msg["imageMessage"]
+        content = img.get("caption", "")
+        file_url = img.get("url")
+        file_name = "imagem.jpg"
+    else:
+        content = ""
+        file_url = None
+        file_name = None
+
+    conn = await get_db_conn()
+    try:
+        conversation_id = await get_or_create_conversation(conn, phone_number, client_name)
+        msg_id = str(uuid.uuid4())
+        from_me = msg_data.get("key", {}).get("fromMe", False)
+        sender = "agent" if from_me else "client"
+        await conn.execute(
+            """
+            INSERT INTO messages (
+                id, conversation_id, content, sender, read, type, file_url, file_name, message_timestamp, source
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            """,
+            msg_id, conversation_id, content, sender, True, message_type, file_url, file_name, msg_dt, "whatsapp"
+        )
+    finally:
+        await conn.close()
+
+async def handle_insert_message(record):
+    # Só envia se a mensagem NÃO veio do WhatsApp
+    if record.get("source") == "whatsapp":
+        return
+
+    conversation_id = record.get("conversation_id")
+    content = record.get("content", "")
+    image_url = record.get("file_url")
+
+    phone_number = None
+    conn = await get_db_conn()
+    try:
+        row = await conn.fetchrow(
+            """
+            SELECT client_id
+            FROM conversations
+            WHERE id = $1
+            """,
+            conversation_id
+        )
+        if row:
+            phone_number = row["client_id"]
+    finally:
+        await conn.close()
+
+    if phone_number:
+        await send_whatsapp_message(phone_number, content, image_url)
+
 @router.post("/webhook_chat")
 async def webhook_chat(request: Request):
     data = await request.json()
+    print(data)
+
+    # Evento padrão do WhatsApp
     if data.get("event") == "messages.upsert":
         msg_data = data.get("data", {})
-        remote_jid = msg_data.get("key", {}).get("remoteJid", "")
-        phone_number = re.sub(r"@s\.whatsapp\.net$", "", remote_jid)
-        client_name = msg_data.get("pushName", "Desconhecido")
-        raw_type = msg_data.get("messageType", "conversation")
-        
-        # Mapeamento para os tipos aceitos pelo banco
-        if raw_type == "conversation":
-            message_type = "text"
-        elif raw_type == "imageMessage":
-            message_type = "image"
-        else:
-            message_type = "text"  # padrão para evitar erro
+        await handle_messages_upsert(msg_data)
 
-        message_timestamp = msg_data.get("messageTimestamp")
-        if message_timestamp:
-            msg_dt = datetime.fromtimestamp(message_timestamp, tz=timezone.utc)
-        else:
-            msg_dt = datetime.now(timezone.utc)
+    # Evento do agente (INSERT na tabela messages)
+    elif data.get("type") == "INSERT" and data.get("table") == "messages":
+        record = data.get("record", {})
+        if record.get("sender") == "agent":
+            await handle_insert_message(record)
 
-        msg = msg_data.get("message", {})
-        if "conversation" in msg:
-            content = msg.get("conversation", "")
-            file_url = None
-            file_name = None
-        elif "imageMessage" in msg:
-            img = msg["imageMessage"]
-            content = img.get("caption", "")
-            file_url = img.get("url")
-            file_name = "imagem.jpg"
-        else:
-            content = ""
-            file_url = None
-            file_name = None
-
-        conn = await get_db_conn()
-        try:
-            conversation_id = await get_or_create_conversation(conn, phone_number, client_name)
-            msg_id = str(uuid.uuid4())
-            await conn.execute(
-                """
-                INSERT INTO messages (
-                    id, conversation_id, content, sender, read, type, file_url, file_name, message_timestamp
-                )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-                """,
-                msg_id, conversation_id, content, "client", True, message_type, file_url, file_name, msg_dt
-            )
-        finally:
-            await conn.close()
     return {"message": "Dados recebidos com sucesso"}

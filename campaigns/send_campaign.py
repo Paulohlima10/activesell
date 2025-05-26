@@ -27,7 +27,7 @@ def get_connection():
 client = EvolutionClient(base_url=WHATSAPP_URL, api_token=API_TOKEN)
 
 
-def send_message(phone_number, message, image_url=None):
+def send_message(phone_number, message, image_url=None, variables=None):
     if not phone_number:
         return {"status": "fail", "reason": "telefone vazio"}
 
@@ -36,20 +36,24 @@ def send_message(phone_number, message, image_url=None):
         if not phone_number.startswith("+"):
             phone_number = phone_number  # Assumindo Brasil
 
+        # Substitui variáveis na mensagem, se fornecidas
+        if variables:
+            message = message.format(**variables)
+
         if image_url:
             url = "http://localhost:8080/message/sendMedia/vendasai"
             payload = {
-                    "number": phone_number,
-                    "mediatype": "image",
-                    "mimetype": "image/png",
-                    "caption": message,
-                    "media": image_url,
-                    "fileName": "Imagem.png"
-                }
+                "number": phone_number,
+                "mediatype": "image",
+                "mimetype": "image/png",
+                "caption": message,
+                "media": image_url,
+                "fileName": "Imagem.png"
+            }
             headers = {
-                    "apikey": WHATSAPP_API_KEY,
-                    "Content-Type": "application/json"
-                }
+                "apikey": WHATSAPP_API_KEY,
+                "Content-Type": "application/json"
+            }
 
             response = requests.post(url, json=payload, headers=headers)
             return response.json()
@@ -75,9 +79,9 @@ def process_campaigns():
         for campaign_id, message in campaigns:
             print(f"📢 Processando campanha {campaign_id}")
 
-            # 2. Busca clientes da campanha ainda não enviados
+            # 2. Busca clientes da campanha ainda não enviados, incluindo nome_cliente e produto_recomendado
             cursor.execute("""
-                SELECT cc.client_id, cl."TELEFONE"
+                SELECT cc.client_id, cl."TELEFONE", cl.nome_cliente, cl.produto_recomendado
                 FROM campaign_clients cc
                 JOIN clientes_classificados cl ON cl.id = cc.client_id
                 WHERE cc.campaign_id = %s AND cc.status IS DISTINCT FROM 'sent'
@@ -94,8 +98,14 @@ def process_campaigns():
             image_url = image[0] if image else None
 
             # 4. Envia mensagens
-            for client_id, phone in clients:
-                response = send_message(phone, message, image_url)
+            for client_id, phone, nome_cliente, produto_recomendado in clients:
+                primeiro_nome = nome_cliente.split()[0] if nome_cliente else ""
+                variables = {
+                    "nome_cliente": primeiro_nome,
+                    "produto": produto_recomendado or "",
+                    "link_personalizado": f"https://seusite.com/compra/{client_id}"
+                }
+                response = send_message(phone, message, image_url, variables=variables)
                 print(f"→ Enviado para {phone}: {response}")
 
                 # Atualiza status da campanha
