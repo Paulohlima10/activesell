@@ -144,6 +144,7 @@ async def handle_insert_message(record):
 
     phone_number = None
     conn = await get_db_conn()
+    await log_message("info", f"Buscando conversa com ID: {conversation_id}")
     try:
         row = await conn.fetchrow(
             """
