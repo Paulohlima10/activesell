@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from server import webhook, create_knowledge, create_prompt, healthcheck, ask_agent, create_agents, webhook_chat
 from logs.logging_config import log_message, start_log_processor
+from logs.logs_api import router as logs_router
 import uvicorn  # Importando o uvicorn
 
 # Função assíncrona para inicializar o log
@@ -17,6 +18,7 @@ app.include_router(healthcheck.router)
 app.include_router(ask_agent.router) 
 app.include_router(create_agents.router)
 app.include_router(webhook_chat.router)
+app.include_router(logs_router)
 
 # Adicionando o bloco para rodar o servidor
 if __name__ == "__main__":
