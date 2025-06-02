@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from evolutionapi.client import EvolutionClient
 from evolutionapi.models.message import TextMessage, MediaMessage, MediaType
 from logs.logging_config import log_message
+import requests
 
 
 router = APIRouter()
@@ -78,6 +79,19 @@ async def send_whatsapp_message(phone_number, msg, image_url=None):
         )
     await log_message("info", f"Mensagem enviada para {phone_number}: {msg} response: {response}")
     return response
+
+def send_text_via_http(phone_number, msg, msg_id="90B2F8B13FAC8A9CF6B06E99C7834DC5", token="9C84DC7EBCC6-4B17-8625-A4A60018AC03", url="http://52.23.198.211:8000/chat/send/text"):
+    headers = {
+        "Token": token,
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "Phone": phone_number,
+        "Body": msg,
+        "Id": msg_id
+    }
+    response = requests.post(url, headers=headers, json=payload)
+    return response.json()
 
 async def handle_messages_upsert(msg_data):
     remote_jid = msg_data.get("key", {}).get("remoteJid", "")
@@ -160,7 +174,8 @@ async def handle_insert_message(record):
         await conn.close()
 
     if phone_number:
-        await send_whatsapp_message(phone_number, content, image_url)
+        # send_whatsapp_message(phone_number, content, image_url)
+        await send_text_via_http(phone_number, content)
 
 async def handle_new_event_message(event_data):
     info = event_data.get("Info", {})
