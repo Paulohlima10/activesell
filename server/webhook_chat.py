@@ -80,7 +80,7 @@ async def send_whatsapp_message(phone_number, msg, image_url=None):
     await log_message("info", f"Mensagem enviada para {phone_number}: {msg} response: {response}")
     return response
 
-def send_text_via_http(phone_number, msg, msg_id="90B2F8B13FAC8A9CF6B06E99C7834DC5", token="9C84DC7EBCC6-4B17-8625-A4A60018AC03", url="http://52.23.198.211:8080/chat/send/text"):
+def send_text_via_http(phone_number, msg, msg_id="90B2F8B13FAC8A9CF6B06E99C7834DC5", token="9C84DC7EBCC6-4B17-8625-A4A60018AC03", url="http://18.205.29.7:8080/chat/send/text"):
     headers = {
         "Token": token,
         "Content-Type": "application/json"
