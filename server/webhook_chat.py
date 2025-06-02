@@ -162,6 +162,45 @@ async def handle_insert_message(record):
     if phone_number:
         await send_whatsapp_message(phone_number, content, image_url)
 
+async def handle_new_event_message(event_data):
+    info = event_data.get("Info", {})
+    message = event_data.get("Message", {})
+    chat_jid = info.get("Chat", "")
+    phone_number = re.sub(r"@s\.whatsapp\.net$", "", chat_jid)
+    client_name = info.get("PushName", "Desconhecido")
+    message_type = info.get("Type", "text")
+    message_timestamp = info.get("Timestamp")
+    if message_timestamp:
+        try:
+            msg_dt = datetime.fromisoformat(message_timestamp.replace("Z", "+00:00"))
+        except Exception:
+            msg_dt = datetime.now(timezone.utc)
+    else:
+        msg_dt = datetime.now(timezone.utc)
+
+    # Conteúdo da mensagem
+    content = message.get("conversation", "")
+    file_url = None
+    file_name = None
+
+    conn = await get_db_conn()
+    try:
+        conversation_id = await get_or_create_conversation(conn, phone_number, client_name)
+        msg_id = str(uuid.uuid4())
+        sender = "client" if not info.get("IsFromMe", False) else "agent"
+        await conn.execute(
+            """
+            INSERT INTO messages (
+                id, conversation_id, content, sender, read, type, file_url, file_name, message_timestamp, source
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            """,
+            msg_id, conversation_id, content, sender, True, message_type, file_url, file_name, msg_dt, "whatsapp"
+        )
+        await log_message("info", f"Mensagem (novo formato) processada: {msg_id} para {phone_number} - {content}")
+    finally:
+        await conn.close()
+
 @router.post("/webhook_chat")
 async def webhook_chat(request: Request):
     data = await request.json()
@@ -172,6 +211,10 @@ async def webhook_chat(request: Request):
     if data.get("event") == "messages.upsert":
         msg_data = data.get("data", {})
         await handle_messages_upsert(msg_data)
+
+    # Novo formato de mensagem
+    elif data.get("type") == "Message" and isinstance(data.get("event"), dict):
+        await handle_new_event_message(data["event"])
 
     # Evento do agente (INSERT na tabela messages)
     elif data.get("type") == "INSERT" and data.get("table") == "messages":
