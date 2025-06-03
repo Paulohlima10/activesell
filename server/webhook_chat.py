@@ -7,6 +7,7 @@ from evolutionapi.client import EvolutionClient
 from evolutionapi.models.message import TextMessage, MediaMessage, MediaType
 from logs.logging_config import log_message
 import requests
+import base64
 
 
 router = APIRouter()
@@ -104,6 +105,34 @@ async def send_text_via_http(
     response = requests.post(url, headers=headers, json=payload)
     return response.json()
 
+async def send_image_via_http(
+    phone_number,
+    image_url,
+    token="9C84DC7EBCC6-4B17-8625-A4A60018AC03",
+    url="http://18.205.29.7:8080/chat/send/image"
+):
+    # Baixa a imagem da URL e converte para base64
+    response = requests.get(image_url)
+    if response.status_code != 200:
+        raise Exception(f"Erro ao baixar imagem: {response.status_code}")
+    content_type = response.headers.get("Content-Type", "image/jpeg")
+    img_base64 = base64.b64encode(response.content).decode("utf-8")
+    if content_type == "image/png":
+        img_data = f"data:image/png;base64,{img_base64}"
+    else:
+        img_data = f"data:image/jpeg;base64,{img_base64}"
+
+    payload = {
+        "Phone": phone_number,
+        "Image": img_data
+    }
+    headers = {
+        "Token": token,
+        "Content-Type": "application/json"
+    }
+    resp = requests.post(url, headers=headers, json=payload)
+    return resp.json()
+
 async def handle_messages_upsert(msg_data):
     remote_jid = msg_data.get("key", {}).get("remoteJid", "")
     phone_number = re.sub(r"@s\.whatsapp\.net$", "", remote_jid)
@@ -185,8 +214,10 @@ async def handle_insert_message(record):
         await conn.close()
 
     if phone_number:
-        # send_whatsapp_message(phone_number, content, image_url)
-        await send_text_via_http(phone_number, content)
+        if image_url:
+            await send_image_via_http(phone_number, image_url) 
+        else:
+            await send_text_via_http(phone_number, content)
 
 async def handle_new_event_message(event_data):
     info = event_data.get("Info", {})
