@@ -22,6 +22,10 @@ async def webhook_import(request: Request):
     data = await request.json()
     await log_message("info", f"Dados recebidos: {data}")
 
+    if data.get("type") != "INSERT":
+        await log_message("info", "Tipo não é INSERT, ignorando processamento sequencial.")
+        return {"message": "Tipo não é INSERT, nada a fazer."}
+
     record = data.get("record")
     if not record or "id" not in record:
         return {"error": "ID não encontrado no payload"}
