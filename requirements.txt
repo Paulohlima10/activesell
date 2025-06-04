@@ -6,3 +6,4 @@ pathlib
 evolutionapi
 uvicorn
 asyncpg
+supabase

@@ -8,6 +8,7 @@ from evolutionapi.models.message import TextMessage, MediaMessage, MediaType
 from logs.logging_config import log_message
 import requests
 import base64
+import os
 
 
 router = APIRouter()
@@ -87,7 +88,7 @@ async def send_text_via_http(
     msg_id=None,
     context_info=None,
     token="9C84DC7EBCC6-4B17-8625-A4A60018AC03",
-    url="http://18.205.29.7:8080/chat/send/text"
+    url=f"{os.getenv('WUZAPI_BASE_URL')}/chat/send/text"
 ):
     headers = {
         "Token": token,
@@ -109,7 +110,7 @@ async def send_image_via_http(
     phone_number,
     image_url,
     token="9C84DC7EBCC6-4B17-8625-A4A60018AC03",
-    url="http://18.205.29.7:8080/chat/send/image"
+    url=f"{os.getenv('WUZAPI_BASE_URL')}/chat/send/image"
 ):
     # Baixa a imagem da URL e converte para base64
     response = requests.get(image_url)

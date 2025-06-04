@@ -11,7 +11,7 @@ import asyncio
 class SalesAssistant:
     def __init__(self, partner_code):
         # Configurar chave de API
-        os.environ["OPENAI_API_KEY"] = "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"
+        os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
         # Inicializar o gerenciador de histórico de chat
         self.chat_history = ChatHistoryManager()
