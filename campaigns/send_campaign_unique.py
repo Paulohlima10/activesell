@@ -9,7 +9,8 @@ import uuid
 import base64
 import asyncio
 import re
-
+import random
+import time
 
 
 # === CONFIGURAÇÕES ===
@@ -142,31 +143,57 @@ async def send_message_via_http(
 
 
 # === PROCESSAMENTO DE CAMPANHAS ===
-async def process_campaigns():
+async def process_campaigns(campaign_id):
     conn = get_connection()
     cursor = conn.cursor()
 
     try:
-        # 1. Seleciona campanhas ativas
+        # Busca dados da campanha específica
         cursor.execute("""
-            SELECT id, message FROM campaigns
-            WHERE status = 'active' AND start_date <= NOW() AND end_date >= NOW()
-        """)
-        campaigns = cursor.fetchall()
+            SELECT id, message, start_date, end_date, daily_limit
+            FROM campaigns
+            WHERE id = %s
+        """, (campaign_id,))
+        campaign = cursor.fetchone()
 
-        for campaign_id, message in campaigns:
-            print(f"📢 Processando campanha {campaign_id}")
+        if not campaign:
+            print(f"⚠️ Campanha {campaign_id} não encontrada.")
+            return
 
-            # 2. Busca clientes da campanha ainda não enviados, incluindo nome_cliente e produto_recomendado
+        campaign_id, message, start_date, end_date, daily_limit = campaign
+
+        # Corrige timezone para garantir comparação correta
+        if start_date.tzinfo is not None:
+            start_date = start_date.replace(tzinfo=None)
+        if end_date.tzinfo is not None:
+            end_date = end_date.replace(tzinfo=None)
+
+        while True:
+            now = datetime.now()
+            if now < start_date:
+                print(f"⏳ Campanha {campaign_id} ainda não começou. Aguardando início.")
+                await asyncio.sleep(60)
+                continue
+            if now > end_date:
+                print(f"⏹️ Campanha {campaign_id} finalizada (data limite atingida).")
+                break
+
+            # Busca clientes ainda não enviados para hoje
             cursor.execute("""
                 SELECT cc.client_id, cl."TELEFONE", cl.nome_cliente, cl.produto_recomendado
                 FROM campaign_clients cc
                 JOIN clientes_classificados cl ON cl.id = cc.client_id
                 WHERE cc.campaign_id = %s AND cc.status IS DISTINCT FROM 'sent'
-            """, (campaign_id,))
+                ORDER BY RANDOM()
+                LIMIT %s
+            """, (campaign_id, daily_limit))
             clients = cursor.fetchall()
 
-            # 3. Verifica se há imagem vinculada
+            if not clients:
+                print(f"✅ Todas as mensagens da campanha {campaign_id} já foram enviadas.")
+                break
+
+            # Busca imagem vinculada
             cursor.execute("""
                 SELECT file_url FROM campaign_files
                 WHERE campaign_id = %s AND file_type = 'image'
@@ -175,12 +202,23 @@ async def process_campaigns():
             image = cursor.fetchone()
             image_url = image[0] if image else None
 
-            # 4. Envia mensagens
+            # Calcula intervalo aleatório entre envios
+            seconds_in_day = 60 * 60 * 12  # 12 horas úteis para disparo
+            interval = seconds_in_day // max(1, len(clients))
+            min_interval = max(10, interval // 2)
+            max_interval = max(20, interval)
+
+            sent_today = 0
+
             for client_id, phone, nome_cliente, produto_recomendado in clients:
+                if sent_today >= daily_limit:
+                    print(f"🔒 Limite diário atingido para campanha {campaign_id}.")
+                    break
+
                 normalized_phone = normalize_phone(phone)
                 if not normalized_phone:
                     # log_message(f"Telefone inválido para client_id {client_id}: {phone}")
-                    continue  # pula para o próximo cliente
+                    continue
 
                 primeiro_nome = nome_cliente.split()[0] if nome_cliente else ""
                 variables = {
@@ -192,23 +230,37 @@ async def process_campaigns():
                 response = await send_message_via_http(normalized_phone, message, image_url, variables=variables)
                 print(f"→ Enviado para {normalized_phone}: {response}")
 
-                # Atualiza status da campanha
                 cursor.execute("""
                     UPDATE campaign_clients
                     SET status = 'sent', sent_at = %s, updated_at = %s
                     WHERE client_id = %s AND campaign_id = %s
                 """, (datetime.now(), datetime.now(), client_id, campaign_id))
+                conn.commit()
+                sent_today += 1
 
+                # Aguarda intervalo aleatório antes do próximo envio
+                sleep_seconds = random.randint(min_interval, max_interval)
+                await asyncio.sleep(sleep_seconds)
 
-        conn.commit()
-        print("✅ Todas as campanhas foram processadas.")
+            # Após o loop, verifica se ainda há clientes para enviar amanhã
+            if sent_today < daily_limit:
+                print(f"✅ Todas as mensagens possíveis do dia foram enviadas para campanha {campaign_id}.")
+                break
+
+            # Aguarda até o próximo dia para continuar
+            now = datetime.now()
+            tomorrow = (now + timedelta(days=1)).replace(hour=0, minute=1, second=0, microsecond=0)
+            wait_seconds = (tomorrow - now).total_seconds()
+            print(f"⏳ Aguardando até o próximo dia para continuar campanha {campaign_id}...")
+            await asyncio.sleep(wait_seconds)
+
     except Exception as e:
-        print(f"⚠️ ERRO ao processar campanhas: {e}")
+        print(f"⚠️ ERRO ao processar campanha {campaign_id}: {e}")
     finally:
         cursor.close()
         conn.close()
 
 # === EXECUÇÃO ===
 if __name__ == "__main__":
-    asyncio.run(process_campaigns())
-    
+    campaign_id = "14c2d3c6-c9ba-43e3-9ffb-bcf858d7e6de"
+    asyncio.run(process_campaigns(campaign_id))
