@@ -1,0 +1,350 @@
+Segue abaixo a lista dos unicos produtos que vendemos em nossa farmacia:
+
+Produto	Preço (R$)	Desconto Máximo (%)	Produto Casado	Desconto Casado (%)
+Óleo de Prímula (60 cápsulas)	49,90	10%	Vitamina D3 + K2	15%
+Melatonina 3mg (60 cápsulas)	39,90	8%	Fórmula para Sono e Relaxamento	12%
+Colágeno Hidrolisado (300g)	59,90	12%	Ácido Hialurônico	18%
+Ômega 3 (120 cápsulas)	69,90	10%	Coenzima Q10	15%
+5-HTP 100mg (60 cápsulas)	54,90	7%	Triptofano + Magnésio	10%
+Vitamina D3 + K2 (60 cápsulas)	44,90	10%	Óleo de Prímula	15%
+Coenzima Q10 100mg (60 cápsulas)	89,90	15%	Ômega 3	15%
+Glucosamina + Condroitina (60 cápsulas)	79,90	10%	Fórmula Anti-inflamatória Natural	12%
+Fórmula Termogênica (60 cápsulas)	64,90	10%	Fórmula para Controle da Glicose	15%
+Fórmula para Cabelos e Unhas (60 cápsulas)	49,90	12%	Ácido Hialurônico	15%
+Triptofano + Magnésio (60 cápsulas)	45,90	7%	5-HTP 100mg	10%
+Creatina Manipulada (300g)	79,90	10%	Fórmula Termogênica	15%
+Fórmula para TPM (60 cápsulas)	59,90	10%	Fórmula para Controle de Ansiedade	15%
+Ácido Hialurônico 100mg (30 cápsulas)	69,90	12%	Colágeno Hidrolisado	18%
+Fórmula para Memória e Concentração (60 cápsulas)	64,90	10%	Coenzima Q10	15%
+Fórmula para Controle da Glicose (60 cápsulas)	54,90	8%	Fórmula Termogênica	15%
+Probióticos Manipulados (30 doses)	79,90	12%	Fórmula Anti-inflamatória Natural	15%
+Fórmula Anti-inflamatória Natural (60 cápsulas)	69,90	12%	Glucosamina + Condroitina	12%
+Fórmula para Sono e Relaxamento (60 cápsulas)	49,90	10%	Melatonina 3mg	12%
+Fórmula para Controle de Ansiedade (60 cápsulas)	59,90	10%	Fórmula para TPM	15%
+
+Segue abaixo dados para a precificação de remedios manipulados, onde o cliente passa a composição do mesmo:
+
+Valor dos principios ativos:
+[
+    {
+        "Princípio Ativo":"Ácido Retinoico",
+        "Custo por Grama (R$)":9.38
+    },
+    {
+        "Princípio Ativo":"Hidroquinona",
+        "Custo por Grama (R$)":2.23
+    },
+    {
+        "Princípio Ativo":"Fluocinolona Acetonida",
+        "Custo por Grama (R$)":7.95
+    },
+    {
+        "Princípio Ativo":"Minoxidil",
+        "Custo por Grama (R$)":3.65
+    },
+    {
+        "Princípio Ativo":"Vitamina C Nano",
+        "Custo por Grama (R$)":7.51
+    },
+    {
+        "Princípio Ativo":"Cafeína Anidra",
+        "Custo por Grama (R$)":12.17
+    },
+    {
+        "Princípio Ativo":"Ioimbina",
+        "Custo por Grama (R$)":19.37
+    },
+    {
+        "Princípio Ativo":"Picolinato de Cromo",
+        "Custo por Grama (R$)":15.78
+    },
+    {
+        "Princípio Ativo":"Sibutramina",
+        "Custo por Grama (R$)":1.74
+    },
+    {
+        "Princípio Ativo":"L-Carnitina",
+        "Custo por Grama (R$)":16.01
+    },
+    {
+        "Princípio Ativo":"Melatonina",
+        "Custo por Grama (R$)":11.96
+    },
+    {
+        "Princípio Ativo":"5-HTP",
+        "Custo por Grama (R$)":5.08
+    },
+    {
+        "Princípio Ativo":"L-Teanina",
+        "Custo por Grama (R$)":19.29
+    },
+    {
+        "Princípio Ativo":"Piracetam",
+        "Custo por Grama (R$)":14.75
+    },
+    {
+        "Princípio Ativo":"Ginkgo Biloba",
+        "Custo por Grama (R$)":7.26
+    },
+    {
+        "Princípio Ativo":"Testosterona Bioidêntica",
+        "Custo por Grama (R$)":13.35
+    },
+    {
+        "Princípio Ativo":"Progesterona Bioidêntica",
+        "Custo por Grama (R$)":8.86
+    },
+    {
+        "Princípio Ativo":"DHEA",
+        "Custo por Grama (R$)":17.45
+    },
+    {
+        "Princípio Ativo":"Levotiroxina",
+        "Custo por Grama (R$)":19.72
+    },
+    {
+        "Princípio Ativo":"Metformina",
+        "Custo por Grama (R$)":3.67
+    },
+    {
+        "Princípio Ativo":"Ashwagandha",
+        "Custo por Grama (R$)":14.54
+    },
+    {
+        "Princípio Ativo":"Rhodiola Rosea",
+        "Custo por Grama (R$)":12.52
+    },
+    {
+        "Princípio Ativo":"Cúrcuma com Piperina",
+        "Custo por Grama (R$)":14.67
+    },
+    {
+        "Princípio Ativo":"Tribulus Terrestris",
+        "Custo por Grama (R$)":17.88
+    },
+    {
+        "Princípio Ativo":"Maca Peruana",
+        "Custo por Grama (R$)":12.08
+    },
+    {
+        "Princípio Ativo":"Luteína",
+        "Custo por Grama (R$)":9.54
+    },
+    {
+        "Princípio Ativo":"Zeaxantina",
+        "Custo por Grama (R$)":3.67
+    },
+    {
+        "Princípio Ativo":"Vitamina A",
+        "Custo por Grama (R$)":18.78
+    },
+    {
+        "Princípio Ativo":"Glutationa",
+        "Custo por Grama (R$)":18.03
+    },
+    {
+        "Princípio Ativo":"Coenzima Q10",
+        "Custo por Grama (R$)":16.43
+    },
+    {
+        "Princípio Ativo":"Resveratrol",
+        "Custo por Grama (R$)":15.77
+    },
+    {
+        "Princípio Ativo":"Ácido Hialurônico",
+        "Custo por Grama (R$)":6.21
+    },
+    {
+        "Princípio Ativo":"Própolis Extrato Seco",
+        "Custo por Grama (R$)":14.61
+    },
+    {
+        "Princípio Ativo":"Echinacea",
+        "Custo por Grama (R$)":17.84
+    },
+    {
+        "Princípio Ativo":"Zinco Quelato",
+        "Custo por Grama (R$)":18.79
+    },
+    {
+        "Princípio Ativo":"Orlistat",
+        "Custo por Grama (R$)":7.77
+    },
+    {
+        "Princípio Ativo":"Dexpantenol",
+        "Custo por Grama (R$)":19.71
+    },
+    {
+        "Princípio Ativo":"Biotina",
+        "Custo por Grama (R$)":10.54
+    },
+    {
+        "Princípio Ativo":"Vitamina D3 + K2",
+        "Custo por Grama (R$)":12.31
+    },
+    {
+        "Princípio Ativo":"Taurina",
+        "Custo por Grama (R$)":17.89
+    },
+    {
+        "Princípio Ativo":"Arginina",
+        "Custo por Grama (R$)":2.08
+    },
+    {
+        "Princípio Ativo":"Beta-Alanina",
+        "Custo por Grama (R$)":19.16
+    },
+    {
+        "Princípio Ativo":"Fisetina",
+        "Custo por Grama (R$)":4.11
+    },
+    {
+        "Princípio Ativo":"NAC (N-acetilcisteína)",
+        "Custo por Grama (R$)":12.13
+    },
+    {
+        "Princípio Ativo":"GABA",
+        "Custo por Grama (R$)":18.82
+    },
+    {
+        "Princípio Ativo":"Astaxantina",
+        "Custo por Grama (R$)":15.73
+    },
+    {
+        "Princípio Ativo":"Carnosina",
+        "Custo por Grama (R$)":15.11
+    },
+    {
+        "Princípio Ativo":"Fisetina",
+        "Custo por Grama (R$)":0.77
+    },
+    {
+        "Princípio Ativo":"PQQ (Pirroloquinolina Quinona)",
+        "Custo por Grama (R$)":18.79
+    },
+    {
+        "Princípio Ativo":"Berberina",
+        "Custo por Grama (R$)":1.61
+    }
+]
+
+Custo de embalagem:
+
+[
+    {
+        "Embalagem":"Pote plástico 30g",
+        "Custo por Unidade (R$)":6.11
+    },
+    {
+        "Embalagem":"Pote plástico 60g",
+        "Custo por Unidade (R$)":1.17
+    },
+    {
+        "Embalagem":"Pote plástico 100g",
+        "Custo por Unidade (R$)":2.28
+    },
+    {
+        "Embalagem":"Bisnaga 30g",
+        "Custo por Unidade (R$)":9.59
+    },
+    {
+        "Embalagem":"Bisnaga 60g",
+        "Custo por Unidade (R$)":8.08
+    },
+    {
+        "Embalagem":"Frasco âmbar 30ml",
+        "Custo por Unidade (R$)":8.36
+    },
+    {
+        "Embalagem":"Frasco âmbar 60ml",
+        "Custo por Unidade (R$)":1.91
+    },
+    {
+        "Embalagem":"Frasco âmbar 100ml",
+        "Custo por Unidade (R$)":2.35
+    },
+    {
+        "Embalagem":"Blister para cápsulas 30un",
+        "Custo por Unidade (R$)":9.85
+    },
+    {
+        "Embalagem":"Blister para cápsulas 60un",
+        "Custo por Unidade (R$)":0.76
+    },
+    {
+        "Embalagem":"Blister para cápsulas 90un",
+        "Custo por Unidade (R$)":4.14
+    },
+    {
+        "Embalagem":"Seringa dosadora 10ml",
+        "Custo por Unidade (R$)":3.2
+    },
+    {
+        "Embalagem":"Seringa dosadora 20ml",
+        "Custo por Unidade (R$)":7.57
+    },
+    {
+        "Embalagem":"Pote de vidro 30g",
+        "Custo por Unidade (R$)":0.53
+    },
+    {
+        "Embalagem":"Pote de vidro 60g",
+        "Custo por Unidade (R$)":0.67
+    },
+    {
+        "Embalagem":"Pote de vidro 100g",
+        "Custo por Unidade (R$)":2.73
+    },
+    {
+        "Embalagem":"Saco zip lock para sachês",
+        "Custo por Unidade (R$)":5.29
+    },
+    {
+        "Embalagem":"Caixa de papelão personalizada",
+        "Custo por Unidade (R$)":6.13
+    },
+    {
+        "Embalagem":"Rótulo adesivo simples",
+        "Custo por Unidade (R$)":8.93
+    },
+    {
+        "Embalagem":"Rótulo adesivo resistente à água",
+        "Custo por Unidade (R$)":0.84
+    }
+]
+
+Forma Farmacêutica	Embalagem Recomendada
+Cremes, pomadas, géis	Pote plástico, pote de vidro, bisnaga
+Loções capilares	Frasco âmbar 30ml ou 60ml
+Cápsulas orais	Blister de 30, 60 ou 90 cápsulas
+Soluções sublinguais	Frasco âmbar 30ml ou 60ml, seringa dosadora
+Pós manipulados	Sachês, saco zip lock
+Xaropes e fitoterápicos	Frasco âmbar 100ml
+Produtos premium	Caixa de papelão personalizada
+
+Exemplo de precificação:
+    Fórmula Prescrita:
+
+    Ácido Retinoico 0,05% (50mg)
+    Hidroquinona 4% (4g)
+    Fluocinolona Acetonida 0,01% (10mg)
+    Creme Gel qsp 30g
+
+Item	Valor (R$)
+Matéria-Prima	R$ 6.68
+Embalagem	R$ 5.00
+Mão de Obra	R$ 20.00
+Subtotal	R$ 31.68
+Custos Fixos (25%)	R$ 7.92
+Custo Total	R$ 39.60
+Margem de Lucro (100%)	R$ 39.60
+Imposto (15%) R$ 11.88
+Preço Final	R$ 91.08
+
+Pra precificar considerar:
+-Custo de Mão de obra 20.00
+-Custo fixo (25% do custo total)
+-Margem de lucro (100% do custo total mais o custo fixo)
+-Materia prima de acordo com o json acima
+-Custo de embalagem de acordo com o json acima
+-Adicione o imposto sobre o produto (15% do valor total)

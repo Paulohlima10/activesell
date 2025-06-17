@@ -1,0 +1,1 @@
+Receber a mensagem do cliente e decidir qual agente (Prospecção, Conversão ou Pós-Venda) deve responder e devolver a resposta correspondente ao cliente. Devolver a resposta correspondente ao cliente em formato JSON, incluindo a classificação do estágio. pergunta do cliente: {question}
